@@ -1,3 +1,4 @@
+```
 # HoloMorph - Real-Time 3D Avatar Face & Body Tracker
 
 **HoloMorph** is a real-time, browser-based 3D avatar that mimics a user’s motion using a webcam.  
@@ -42,6 +43,11 @@ npm install
 npm run dev
 ```
 
+> 🧠 **Note:**  
+> The avatar requires a skinned `.glb` model file.  
+> By default, the project uses the model listed in `public/modelCredits.txt`.  
+> If you replace the model with a different one, make sure to **update the bone mappings** in `src/components/Avatar.tsx` to match the new skeleton.
+
 ---
 
 ## 🧪 Tests
@@ -59,18 +65,19 @@ npm run test
 ```
 holoform/
 ├── public/
-│   └── avatar.glb
+│   ├── avatar.glb
+│   └── modelCredits.txt
 ├── src/
-    ├── __tests__/
-    │   ├── Avatar.test.tsx
-    │   ├── Controls.test.tsx
-    │   └── WebcamFeed.test.tsx
-    ├── components/
-    │   ├── Avatar.tsx          # Avatar logic with GSAP & motion tracking
-    │   ├── WebcamFeed.tsx      # MediaPipe camera integration
-    │   └── Controls.tsx        # UI toggles for face/body/hands
-    │   ├── AvatarScene.tsx     # Canvas + environment setup
-    ├── utils/
-    │   ├── mapLandmarksToBones.ts
-    │   └── applyIdleAnimation.ts
+│   ├── __tests__/
+│   │   ├── Avatar.test.tsx
+│   │   ├── Controls.test.tsx
+│   │   └── WebcamFeed.test.tsx
+│   ├── components/
+│   │   ├── Avatar.tsx          # Avatar logic with GSAP & motion tracking
+│   │   ├── WebcamFeed.tsx      # MediaPipe camera integration
+│   │   ├── Controls.tsx        # UI toggles for face/body/hands
+│   │   └── AvatarScene.tsx     # Canvas + environment setup
+│   ├── utils/
+│   │   ├── mapLandmarksToBones.ts
+│   │   └── applyIdleAnimation.ts
 ```
