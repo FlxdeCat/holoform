@@ -64,7 +64,7 @@ npm run test
 ```
 holoform/
 ├── public/
-│   ├── avatar.glb
+│   ├── model.glb
 │   └── modelCredits.txt
 ├── src/
 │   ├── __tests__/
