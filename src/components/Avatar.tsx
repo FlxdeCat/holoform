@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
 import { mapLandmarkToBone } from '../utils/mapLandmarksToBones'
+import { applyIdleAnimation } from '../utils/applyIdleAnimation'
 
 interface AvatarProps {
   landmarkData: any
@@ -16,15 +17,19 @@ interface AvatarProps {
 }
 
 const BoneMap = {
-  rightWrist: 'RightWrist',
-  leftWrist: 'LeftWrist',
-  rightElbow: 'RightElbow',
-  leftElbow: 'LeftElbow',
-  head: 'Head',
-  spine: 'Spine',
-  eyelids: ['EyeLid.L', 'EyeLid.R'],
-  rightHand: 'RightHand',
-  leftHand: 'LeftHand',
+  rightWrist: 'CC_Base_R_Hand_083',
+  leftWrist: 'CC_Base_L_Hand_055',
+  rightElbow: 'CC_Base_R_Forearm_079',
+  leftElbow: 'CC_Base_L_Forearm_051',
+  head: 'CC_Base_Head_038',
+  spine: 'CC_Base_Spine01_034',
+  eyelids: ['CC_Base_L_Eye_046', 'CC_Base_R_Eye_045'],
+  rightHand: 'CC_Base_R_Hand_083',
+  leftHand: 'CC_Base_L_Hand_055',
+  neck: 'CC_Base_NeckTwist01_036',
+  hips: 'CC_Base_Pelvis_03',
+  jaw: 'CC_Base_JawRoot_040',
+  chest: 'CC_Base_Chest_032',
 }
 
 export default function Avatar({ landmarkData, visibleSections }: AvatarProps) {
@@ -41,39 +46,49 @@ export default function Avatar({ landmarkData, visibleSections }: AvatarProps) {
   useEffect(() => {
     if (!skeleton) return
 
-    const bones = {
-      rightWrist: skeleton.bones.find(b => b.name === BoneMap.rightWrist) || null,
-      leftWrist: skeleton.bones.find(b => b.name === BoneMap.leftWrist) || null,
-      rightElbow: skeleton.bones.find(b => b.name === BoneMap.rightElbow) || null,
-      leftElbow: skeleton.bones.find(b => b.name === BoneMap.leftElbow) || null,
-      head: skeleton.bones.find(b => b.name === BoneMap.head) || null,
-      spine: skeleton.bones.find(b => b.name === BoneMap.spine) || null,
-      rightHand: skeleton.bones.find(b => b.name === BoneMap.rightHand) || null,
-      leftHand: skeleton.bones.find(b => b.name === BoneMap.leftHand) || null,
-      eyelidL: skeleton.bones.find(b => b.name === BoneMap.eyelids[0]) || null,
-      eyelidR: skeleton.bones.find(b => b.name === BoneMap.eyelids[1]) || null,
-    }
+    const bones = Object.fromEntries(
+      Object.entries(BoneMap).flatMap(([key, name]) => {
+        if (Array.isArray(name)) {
+          return name.map((n, i) => [`${key}${i}`, skeleton.bones.find(b => b.name === n) || null])
+        }
+        return [[key, skeleton.bones.find(b => b.name === name) || null]]
+      })
+    )
 
     bonesRef.current = bones
 
-    const tl = gsap.timeline({ repeat: -1, yoyo: true, paused: false })
+    idleTimeline.current = applyIdleAnimation({
+      head: bones.head,
+      spine: bones.spine,
+      hips: bones.hips,
+      jaw: bones.jaw,
+    })
 
-    if (bones.head) {
-      tl.to(bones.head.position, { y: '+=0.03', duration: 2.5, ease: 'sine.inOut' }, 0)
-      tl.to(bones.head.position, { x: '+=0.01', duration: 4, ease: 'sine.inOut' }, 0)
+    if (bones.chest) {
+      gsap.to(bones.chest.scale, {
+        y: '+=0.02',
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      })
     }
 
-    if (bones.spine) {
-      tl.to(bones.spine.position, { y: '+=0.02', duration: 3, ease: 'sine.inOut' }, 0)
+    if (bones.neck) {
+      gsap.to(bones.neck.rotation, {
+        x: "+=0.03",
+        duration: 3.2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      })
     }
-
-    idleTimeline.current = tl
   }, [skeleton])
 
   useEffect(() => {
     const blink = () => {
-      const left = bonesRef.current.eyelidL
-      const right = bonesRef.current.eyelidR
+      const left = bonesRef.current.eyelids0
+      const right = bonesRef.current.eyelids1
       if (!left || !right) return
       gsap.to([left.scale, right.scale], {
         y: 0.1,
@@ -104,9 +119,7 @@ export default function Avatar({ landmarkData, visibleSections }: AvatarProps) {
 
     if (moved) {
       idleTimeline.current?.pause()
-
       if (idlePauseTimeout.current) clearTimeout(idlePauseTimeout.current)
-
       idlePauseTimeout.current = setTimeout(() => {
         idleTimeline.current?.resume()
       }, 1000)
