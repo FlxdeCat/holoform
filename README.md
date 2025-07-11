@@ -7,24 +7,26 @@ Powered by **React 19 + TypeScript + Three.js + GSAP + MediaPipe**, this project
 
 ## ✨ Features
 
-- 🎥 **Live Webcam Tracking** (face, body, and hands)
-- 🦴 **3D Avatar Bone Mapping** with MediaPipe Holistic
-- 💨 **Idle Animations** (head bobbing, spine breathing)
-- 👀 **Random Eye Blinking** for realism
-- 🎯 **Motion Detection** to pause idle animation
-- ⚙️ Modular & Performant architecture (React + Fiber + GSAP)
+- 🎥 Live face, body, and hand tracking (MediaPipe Holistic)
+- 🦴 3D avatar bone mapping (Three.js + R3F)
+- 💨 GSAP idle animation (breathing, head bob)
+- 👀 Random eye blinking animation
+- 🎯 Motion detection to pause idle
+- ⚙️ Modular, performant (React, TypeScript, Tailwind)
+- 🧪 Automated tests with Vitest + Testing Library + GitHub Actions
 
 ---
 
 ## 🔧 Tech Stack
 
-| Layer       | Tools                                 |
-|-------------|----------------------------------------|
-| Frontend    | React 19, TypeScript, Tailwind CSS     |
-| 3D Graphics | react-three-fiber, drei, three.js      |
-| Animation   | GSAP                                   |
-| Tracking    | MediaPipe Holistic + camera_utils      |
-| Assets      | `.glb` skinned 3D humanoid avatar      |
+| Layer       | Tools                                         |
+|-------------|-----------------------------------------------|
+| Frontend    | React 19, TypeScript, Tailwind CSS            |
+| 3D Graphics | react-three-fiber, drei, three.js             |
+| Animation   | GSAP                                          |
+| Tracking    | MediaPipe Holistic, camera_utils              |
+| Assets      | `.glb` skinned 3D humanoid avatar             |
+| Testing     | Vitest, @testing-library/react, jsdom, CI via GitHub Actions |
 
 ---
 
@@ -42,6 +44,16 @@ npm run dev
 
 ---
 
+## 🧪 Tests
+
+Run automated tests:
+
+```bash
+npm run test
+```
+
+---
+
 ## 📁 Structure
 
 ```
@@ -49,6 +61,10 @@ holoform/
 ├── public/
 │   └── avatar.glb
 ├── src/
+    ├── __tests__/
+    │   ├── Avatar.test.tsx
+    │   ├── Controls.test.tsx
+    │   └── WebcamFeed.test.tsx
     ├── components/
     │   ├── Avatar.tsx          # Avatar logic with GSAP & motion tracking
     │   ├── WebcamFeed.tsx      # MediaPipe camera integration
