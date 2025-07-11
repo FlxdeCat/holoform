@@ -1,4 +1,4 @@
-# 🧠 HoloMorph - Real-Time 3D Avatar Face & Body Tracker
+# HoloMorph - Real-Time 3D Avatar Face & Body Tracker
 
 **HoloMorph** is a real-time, browser-based 3D avatar that mimics a user’s motion using a webcam.  
 Powered by **React 19 + TypeScript + Three.js + GSAP + MediaPipe**, this project brings skeletal tracking to life with subtle animation, eye blinking, and idle-aware behavior.
