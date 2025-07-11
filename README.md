@@ -1,4 +1,3 @@
-```
 # HoloMorph - Real-Time 3D Avatar Face & Body Tracker
 
 **HoloMorph** is a real-time, browser-based 3D avatar that mimics a user’s motion using a webcam.  
