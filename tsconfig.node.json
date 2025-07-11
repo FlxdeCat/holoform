@@ -19,7 +19,10 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "types": ["vitest", "@testing-library/jest-dom"]
   },
-  "include": ["vite.config.ts"]
+
+  "include": ["vite.config.ts", "**/*.test.ts", "**/*.test.tsx"]
 }
